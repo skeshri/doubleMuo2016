@@ -37,11 +37,11 @@ Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
     Categories = cms.PSet(
         passIsoCut   = cms.vstring("passIsoCut", "dummy[pass=1,fail=0]"),
         mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-        Tight2012 = cms.vstring("Tight2012", "dummy[pass=1,fail=0]"),
-        tag_Tight2012 = cms.vstring("tag_Tight2012", "dummy[pass=1,fail=0]"),
+#        Tight2012 = cms.vstring("Tight2012", "dummy[pass=1,fail=0]"),
+#        tag_Tight2012 = cms.vstring("tag_Tight2012", "dummy[pass=1,fail=0]"),
                           tag_Mu17_IsoTrkVVL = cms.vstring("tag_Mu17_IsoTrkVVL", "dummy[pass=1,fail=0]"),
                           Mu17_IsoTrkVVL = cms.vstring("Mu17_IsoTrkVVL", "dummy[pass=1,fail=0]"),
-        L2fL1sMu16L1f0L2Filtered10Q = cms.vstring("L2fL1sMu16L1f0L2Filtered10Q", "dummy[pass=1,fail=0]"),
+        #L2fL1sMu16L1f0L2Filtered10Q = cms.vstring("L2fL1sMu16L1f0L2Filtered10Q", "dummy[pass=1,fail=0]"),
 
     ),
     PDFs = cms.PSet(
@@ -85,16 +85,16 @@ Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
 PT_ETA_BINS = cms.PSet(
                         pt     = cms.vdouble( 0, 10, 15,20,25,30, 40, 50, 60, 90, 140, 300, 500  ),
                         abseta = cms.vdouble(0.0, 0.9, 1.2, 2.1, 2.4),
-                        Tight2012 = cms.vstring("pass"),
-                        tag_IsoMu20 = cms.vstring("pass"),
+                        #Tight2012 = cms.vstring("pass"),
+                        #tag_IsoMu20 = cms.vstring("pass"),
                         tag_pt =  cms.vdouble(23,9999)
 )
 
 ETA_BINS = cms.PSet(
                        pt     = cms.vdouble( 25, 9999 ),
                        abseta = cms.vdouble( 0., 0.9, 1.2, 2.1, 2.4),
-                       tag_Tight2012 = cms.vstring("pass"),
-                       Tight2012 = cms.vstring("pass"),
+#                       tag_Tight2012 = cms.vstring("pass"),
+#                       Tight2012 = cms.vstring("pass"),
                        tag_Mu17_IsoTrkVVL = cms.vstring("pass"),
                        tag_pt =  cms.vdouble(23,9999)
                        )
@@ -105,8 +105,8 @@ PHI_BINS = cms.PSet(
                     phi     = cms.vdouble(-3.1,-2.7,-2.2,-1.8,-1.4,-1.0,-0.6,-0.2,0.2,0.6,1.0,1.4,1.8,2.2,2.7,3.1),
                     pt     = cms.vdouble( 23, 9999 ),
                     abseta = cms.vdouble(0.0, 2.4),
-                    Tight2012 = cms.vstring("pass"),
-                    tag_IsoMu20 = cms.vstring("pass"),
+#                    Tight2012 = cms.vstring("pass"),
+#                    tag_IsoMu20 = cms.vstring("pass"),
                     tag_pt =  cms.vdouble(23,9999)
                     )
 
@@ -115,8 +115,8 @@ VTX_BINS  = cms.PSet(
     abseta = cms.vdouble(  0.0, 2.4),
     tag_nVertices = cms.vdouble(0.5,2.5,4.5,6.5,8.5,10.5,12.5,14.5,16.5,18.5,20.5,22.5,24.5, 28.5, 32.5),
                      #tag_nVertices = cms.vdouble(0.5,2.5,4.5,6.5,8.5,10.5,12.5,16.5,20.5,25,30,40)
-    Tight2012 = cms.vstring("pass"),
-    tag_IsoMu20 = cms.vstring("pass"),
+#    Tight2012 = cms.vstring("pass"),
+#    tag_IsoMu20 = cms.vstring("pass"),
     tag_pt =  cms.vdouble(23,9999)
 )
 
@@ -135,7 +135,7 @@ if "_weight" in scenario:
 if scenario=="data_all":
     process.TnP_MuonID.InputFileNames = cms.vstring(
                                                     # put here the trees corresponding to data
-                                                    "file:/tmp/hbrun/tnpZ_skimed_tnpZ_Data_25ns_run2015D_doubleMuon_v3p3_ALLDATA.root"
+                                                    "file:/afs/cern.ch/work/s/skeshri/Analysis/Moriond2017/Muon_Iso_Trig/Trigger/Muon_trig/CMSSW_8_0_25/src/doubleMuonInRunII/OutRoot/tnpZ_forRef.root"
                                                     )
 
 if "mc" in scenario:

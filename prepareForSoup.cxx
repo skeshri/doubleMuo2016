@@ -10,33 +10,50 @@
 
 void prepareForSoup() {
 	using namespace std;
-    TTree *tIn  = (TTree *) gFile->Get("tpTree/fitter_tree");
+
+TChain * ch = new TChain("tpTree/fitter_tree");
+TFileCollection fc("test","","myfileList_test.txt");
+ch->AddFileInfoList(fc.GetList());
+
+//    TTree *tIn  = (TTree *) gFile->Get("tpTree/fitter_tree");
+    TTree *tIn = ch;
     Float_t pt, abseta, pair_probeMultiplicity, tag_eta, tag_nVertices, mass;
     Int_t event;
-    Int_t Tight2012, tag_Tight2012, tag_Mu17_IsoTrkVVL, Mu17_IsoTrkVVL;
-    Float_t combRelIsoPF04dBeta, tag_combRelIsoPF04dBeta;
+    Int_t tkHighPt, tag_tkHighPt, tag_Mu17_IsoTrkVVL, Mu17_IsoTrkVVL;
+    Float_t combRelIsoPF04dBeta, tag_combRelIsoPF04dBeta, tkIso, tag_tkIso;
     Int_t DoubleIsoMu17Mu8dZ_Mu17leg, DoubleIsoMu17Mu8_IsoMu17leg, DoubleIsoMu17Mu8_Mu17leg,  DoubleIsoMu17Mu8_IsoMu8leg, DoubleIsoMu17Mu8_Mu8leg, DoubleIsoMu17TkMu8dZ_Mu17, DoubleIsoMu17TkMu8_IsoMu17leg, DoubleIsoMu17TkMu8_Mu17leg, DoubleIsoMu17TkMu8_IsoMu8leg, DoubleIsoMu17TkMu8_TkMu8leg;
     Int_t tag_DoubleIsoMu17Mu8dZ_Mu17leg, tag_DoubleIsoMu17Mu8_IsoMu17leg, tag_DoubleIsoMu17Mu8_Mu17leg,  tag_DoubleIsoMu17Mu8_IsoMu8leg, tag_DoubleIsoMu17Mu8_Mu8leg, tag_DoubleIsoMu17TkMu8dZ_Mu17, tag_DoubleIsoMu17TkMu8_IsoMu17leg, tag_DoubleIsoMu17TkMu8_Mu17leg, tag_DoubleIsoMu17TkMu8_IsoMu8leg, tag_DoubleIsoMu17TkMu8_TkMu8leg;
     
-    Int_t IsoMu20, tag_IsoMu20;
+    Int_t IsoMu22, tag_IsoMu22;
+    Int_t IsoTkMu22, tag_IsoTkMu22;
+    Int_t IsoMu24, tag_IsoMu24;
+    Int_t IsoTkMu24, tag_IsoTkMu24;
+
     tIn->SetBranchAddress("pt", &pt);
     tIn->SetBranchAddress("abseta", &abseta);
     tIn->SetBranchAddress("tag_eta", &tag_eta);
     tIn->SetBranchAddress("mass", &mass);
     tIn->SetBranchAddress("pair_probeMultiplicity", &pair_probeMultiplicity);
     tIn->SetBranchAddress("event", &event);
-    tIn->SetBranchAddress("Tight2012", &Tight2012);
-    tIn->SetBranchAddress("tag_Tight2012", &tag_Tight2012);
+    tIn->SetBranchAddress("tkHighPt", &tkHighPt);
+    tIn->SetBranchAddress("tag_tkHighPt", &tag_tkHighPt);
     tIn->SetBranchAddress("tag_Mu17_IsoTrkVVL", &tag_Mu17_IsoTrkVVL);
     tIn->SetBranchAddress("Mu17_IsoTrkVVL", &Mu17_IsoTrkVVL);
     tIn->SetBranchAddress("tag_nVertices", &tag_nVertices);
     tIn->SetBranchAddress("tag_combRelIsoPF04dBeta", &tag_combRelIsoPF04dBeta);
     tIn->SetBranchAddress("combRelIsoPF04dBeta", &combRelIsoPF04dBeta);
+    tIn->SetBranchAddress("tag_tkIso", &tag_tkIso);
+    tIn->SetBranchAddress("tkIso", &tkIso);
     
-    tIn->SetBranchAddress("IsoMu20", &IsoMu20);
-    tIn->SetBranchAddress("tag_IsoMu20", &tag_IsoMu20);
+    tIn->SetBranchAddress("IsoMu22", &IsoMu22);
+    tIn->SetBranchAddress("tag_IsoMu22", &tag_IsoMu22);
+    tIn->SetBranchAddress("IsoTkMu22", &IsoTkMu22);
+    tIn->SetBranchAddress("tag_IsoMu22", &tag_IsoMu22);
+    tIn->SetBranchAddress("IsoMu24", &IsoMu24);
+    tIn->SetBranchAddress("tag_IsoMu24", &tag_IsoMu24);
+    tIn->SetBranchAddress("IsoTkMu24", &IsoTkMu24);
+    tIn->SetBranchAddress("tag_IsoMu24", &tag_IsoMu24);
 
-    
     tIn->SetBranchAddress("DoubleIsoMu17Mu8dZ_Mu17leg", &DoubleIsoMu17Mu8dZ_Mu17leg);
     tIn->SetBranchAddress("DoubleIsoMu17Mu8_IsoMu17leg", &DoubleIsoMu17Mu8_IsoMu17leg);
     tIn->SetBranchAddress("DoubleIsoMu17Mu8_Mu17leg", &DoubleIsoMu17Mu8_Mu17leg);
@@ -61,7 +78,7 @@ void prepareForSoup() {
 
 	
 
-    TFile *fOut = new TFile("/tmp/hbrun/tnpZ_forRef.root", "RECREATE");
+    TFile *fOut = new TFile("/afs/cern.ch/work/s/skeshri/Analysis/Moriond2017/Muon_Iso_Trig/Trigger/Muon_trig/CMSSW_8_0_25/src/doubleMuonInRunII/OutRoot/soup_tree.root", "RECREATE");
     //TFile *fOut = new TFile("/afs/cern.ch/work/h/hbrun/pogTnPr7/TnP_Data_"+NameFile+".root", "RECREATE");
     fOut->mkdir("tpTree")->cd();
     TTree *tOut = tIn->CloneTree(0);
@@ -90,13 +107,13 @@ void prepareForSoup() {
             fflush(stdout);
         }
         if (!(tag_Mu17_IsoTrkVVL||Mu17_IsoTrkVVL)) continue;
-        if (!(tag_Tight2012)) continue;
-        if (!(tag_combRelIsoPF04dBeta<0.15)) continue;
+        if (!(tag_tkHighPt)) continue;
+        if (!(tag_combRelIsoPF04dBeta<0.15 && tag_tkIso<0.1)) continue;
         if (!(pair_probeMultiplicity==1)) continue;
-        if (!(Tight2012)) continue;
-        if (!(combRelIsoPF04dBeta<0.15)) continue;
-        passORDoubleMuons = ((tag_DoubleIsoMu17Mu8dZ_Mu17leg&&DoubleIsoMu17Mu8_IsoMu8leg)||(DoubleIsoMu17Mu8dZ_Mu17leg&&tag_DoubleIsoMu17Mu8_IsoMu8leg))||((tag_DoubleIsoMu17TkMu8dZ_Mu17&&DoubleIsoMu17TkMu8_IsoMu8leg)||(DoubleIsoMu17TkMu8dZ_Mu17&&tag_DoubleIsoMu17TkMu8_IsoMu8leg));
-        passORallPaths = passORDoubleMuons || IsoMu20 || tag_IsoMu20;
+        if (!(tkHighPt)) continue;
+        if (!(combRelIsoPF04dBeta<0.15 && tkIso<0.1)) continue;
+        passORDoubleMuons = ((tag_DoubleIsoMu17Mu8dZ_Mu17leg && DoubleIsoMu17Mu8_IsoMu8leg)||(DoubleIsoMu17Mu8dZ_Mu17leg && tag_DoubleIsoMu17Mu8_IsoMu8leg))||((tag_DoubleIsoMu17TkMu8dZ_Mu17 && DoubleIsoMu17TkMu8_IsoMu8leg)||(DoubleIsoMu17TkMu8dZ_Mu17 && tag_DoubleIsoMu17TkMu8_IsoMu8leg))||((tag_DoubleIsoMu17TkMu8_Mu17leg && DoubleIsoMu17TkMu8_TkMu8leg)||(DoubleIsoMu17TkMu8_Mu17leg && tag_DoubleIsoMu17TkMu8_TkMu8leg))||((tag_DoubleIsoMu17Mu8_IsoMu17leg && DoubleIsoMu17Mu8_IsoMu8leg)||(DoubleIsoMu17Mu8_IsoMu17leg && tag_DoubleIsoMu17Mu8_IsoMu8leg));
+        passORallPaths = passORDoubleMuons || IsoMu22 || tag_IsoMu22 || IsoTkMu22 || tag_IsoTkMu22 || IsoMu24 || tag_IsoMu24 || IsoTkMu24 || tag_IsoTkMu24;
 
         
         tOut->Fill();
